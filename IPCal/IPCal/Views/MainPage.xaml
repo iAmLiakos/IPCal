@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:IPCal"
+             x:Class="IPCal.MainPage"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             BackgroundColor="WhiteSmoke">
+
+	<Label Text="Organize your life" 
+           VerticalOptions="Center" 
+           HorizontalOptions="Center" />
+    <ScrollView>
+        <StackLayout Padding="20,10,20,10" Spacing="8" >
+            <Label Text="Welcome to my app.&#x0a; Hope you like it!" HorizontalOptions="Center" FontSize="Large"></Label>
+            <Button Text="Show ALL" WidthRequest="100" HeightRequest="90" HorizontalOptions="Center"  Margin="50"></Button>
+            <Label Text="Add new" HorizontalOptions="Start"></Label>
+            <Entry Text="{Binding CustomerName}" Placeholder="Name" HorizontalOptions="Start" WidthRequest="350"></Entry>
+            <Picker ItemsSource="{Binding AreaPicker}" SelectedItem="{Binding SelectedAreaPicker}" Title="Area" HorizontalOptions="Start" WidthRequest="350"></Picker>
+            <Entry Text="{Binding CustomerAddress}" Placeholder="Address" HorizontalOptions="Start" WidthRequest="350"></Entry>
+            <Entry Text="{Binding CustomerPhone}" Placeholder="Phone" HorizontalOptions="Start" WidthRequest="350" Keyboard="Telephone"></Entry>
+            <DatePicker Date="{Binding AppointmentDate}" MinimumDate="{x:Static system:DateTime.Today}" HorizontalOptions="Start" WidthRequest="350"></DatePicker>
+            <Picker ItemsSource="{Binding FrequencyPicker}" SelectedItem="{Binding SelectedFrequencyPicker}" Title="Frequency" HorizontalOptions="Start" WidthRequest="350"></Picker>
+            <Entry Text="{Binding Details}" Placeholder="Details" HorizontalOptions="StartAndExpand" WidthRequest="350"></Entry>
+            <Switch></Switch>
+            <Button Command="{Binding SaveButtonCommand}" Text="Save" HorizontalOptions="Start"></Button>
+            <ListView ItemsSource="{Binding DisplayRantezvousList}" Header="List Of Items" HorizontalOptions="Center" HeightRequest="50"></ListView>
+            <Label Text ="Created by IP" TextColor="Red" FontSize="Micro"/>
+            <ActivityIndicator IsRunning="{Binding isBusy}"></ActivityIndicator>
+        </StackLayout>
+        
+    </ScrollView>
+
+</ContentPage>
+<!--ItemsSource="{Binding DisplayRantezvousList}"-->
