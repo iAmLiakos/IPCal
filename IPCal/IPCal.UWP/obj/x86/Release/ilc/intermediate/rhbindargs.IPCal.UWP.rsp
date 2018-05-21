@@ -1,0 +1,16 @@
+﻿/osver:6.2
+/appcontainer
+"/runtime:mrt100_app"
+/eh:clr
+/pdb
+"/nativeLink:C:\Program Files (x86)\Microsoft SDKs\UWPNuGetPackages\runtime.win10-x86.microsoft.net.native.compiler\2.1.8\tools\x86\ilc\lib\Native\vmath.lib"
+/customImports
+/methodBodyFolding
+"C:\Users\Ilias\source\repos\IPCal\IPCal\IPCal.UWP\obj\x86\Release\ilc\intermediate\MDIL\IPCal.UWP.mdilexe"
+"/i:C:\Users\Ilias\source\repos\IPCal\IPCal\IPCal.UWP\obj\x86\Release\ilc\intermediate\MDIL"
+"/out:C:\Users\Ilias\source\repos\IPCal\IPCal\IPCal.UWP\obj\x86\Release\ilc\intermediate\Native\IPCal.UWP.exe"
+"/pdbAltPath:C:\Users\Ilias\source\repos\IPCal\IPCal\IPCal.UWP\bin\x86\Release\ilc"
+"/res:C:\Users\Ilias\source\repos\IPCal\IPCal\IPCal.UWP\obj\x86\Release\ilc\intermediate\Native.res"
+"/i:C:\Program Files (x86)\Microsoft SDKs\UWPNuGetPackages\runtime.win10-x86.microsoft.net.native.sharedlibrary\2.1.8\tools\SharedLibrary\ret\MDIL"
+/shimexe
+"/classlib:SharedLibrary"

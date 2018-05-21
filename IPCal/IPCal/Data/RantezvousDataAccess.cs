@@ -5,71 +5,90 @@ using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using Xamarin.Forms;
 
 namespace IPCal.Data
 {
-    public class RantezvousDataAccess
+    public class RantezvousDataAccess : INotifyPropertyChanged
     {
         public SQLiteConnection database;
         private static object collisionLock = new object();
+
         public ObservableCollection<Rantezvous> Rantezvous { get; set; }
 
         public RantezvousDataAccess()
         {
-            database =
-                DependencyService.Get<IDatabaseConnection>().
-                DbConnection();
+            database = DependencyService.Get<IDatabaseConnection>().DbConnection();
             database.CreateTable<Rantezvous>();
 
-            this.Rantezvous =
-                new ObservableCollection<Rantezvous>(database.Table<Rantezvous>());
+            Rantezvous = new ObservableCollection<Rantezvous>(database.Table<Rantezvous>());
 
             // If the table is empty, initialize the collection
             if (!database.Table<Rantezvous>().Any())
             {
-                AddNewRantezvous();
+                InitRantezvous();
             }
         }
 
-        public void AddNewRantezvous()
+        public void InitRantezvous()
         {
-            this.Rantezvous.
-                Add(new Rantezvous
-                {
-                    CustomerName = "Init",
-                    CustomerAddress = "Init",
-                    CustomerPhone = 12345
-                });
+            Rantezvous rn = new Rantezvous
+            {
+                CustomerName = "Ηλίας Παπανικολάου",
+                CustomerAddress = "Δ.Χατζή 32",
+                CustomerPhone = 265136913,
+                AreaName = "Αμπελόκηποι",
+                AppointmentDate = new DateTime().Date,
+                FrequencyOfCleaning = 12
+            };
+            database.Insert(rn);
+            this.Rantezvous.Add(rn);
+            OnPropertyChanged();
+
         }
 
         // Use LINQ to query and filter data
-        public IEnumerable<Rantezvous> GetFilteredRantezvous(string area)
+        public ObservableCollection<Rantezvous> GetFilteredRantezvous(string area)
         {
+            ObservableCollection<Rantezvous> queried = new ObservableCollection<Rantezvous>();
+
             // Use locks to avoid database collitions
             lock (collisionLock)
             {
                 var query = from cust in database.Table<Rantezvous>()
                             where cust.AreaName == area
                             select cust;
-                return query.AsEnumerable();
+                foreach (var item in query)
+                {
+                    queried.Add(item);
+                }
+                return queried;
+                //public IEnumerable<Rantezvous>
+                //return query.AsEnumerable();
             }
         }
 
         // Use SQL queries against data
-        //public IEnumerable<RantezvousViewModel> GetFilteredRantezvous()
-        //{
-        //    lock (collisionLock)
-        //    {
-        //        return database.
-        //            Query<RantezvousViewModel>
-        //            ("SELECT * FROM Item WHERE Country = 'Italy'").AsEnumerable();
-        //    }
-        //}
+        public IEnumerable<Rantezvous> GetFilteredRantezvous10DaysNear()
+        {
+            lock (collisionLock)
+            {
+                //var query = from c in data.Rantezvous
+                //            orderby c.AppointmentDate
+                //            where c.AppointmentDate >= DateTime.Now && c.AppointmentDate <= DateTime.Now.AddDays(10)
+                //            select new { c.CustomerName, c.CustomerAddress, c.AppointmentDate, c.DateTrimmed };
+                //var results = query.ToList();
+                return database.
+                    Query<Rantezvous>
+                    ("SELECT * FROM Rantezvous WHERE AppointmentDate >= DATETIME('now', '-7 day');").AsEnumerable();
+            }
 
-        public Rantezvous GetRantezvous(int id)
+        }
+            public Rantezvous GetRantezvous(int id)
         {
             lock (collisionLock)
             {
@@ -113,30 +132,56 @@ namespace IPCal.Data
             }
         }
 
-        public int DeleteRantezvous(Rantezvous rantezvousInstance)
+        public async void DeleteRantezvous(Rantezvous rantezvousInstance)
         {
             var id = rantezvousInstance.Id;
             if (id != 0)
             {
-                lock (collisionLock)
+                var result = await Application.Current.MainPage.DisplayAlert("Confirmation", "Are you sure? This cannot be undone", "OK", "Cancel");
+                if (result == true)
                 {
-                    database.Delete<RantezvousViewModel>(id);
+                    lock (collisionLock)
+                    {
+                        database.Delete<Rantezvous>(id);
+                        this.Rantezvous.Remove(rantezvousInstance);
+                        //OnPropertyChanged();
+                    }
                 }
             }
-            this.Rantezvous.Remove(rantezvousInstance);
-            return id;
         }
 
-        public void DeleteAllRantezvous()
+        public async void DeleteAllRantezvous()
         {
-            lock (collisionLock)
+            try
             {
-                database.DropTable<Rantezvous>();
-                database.CreateTable<Rantezvous>();
+                var result = await Application.Current.MainPage.DisplayAlert("Μήνυμα επιβεβαίωσης", "Είστε σίγουρος/η; Αυτή η ενέργεια είναι μόνιμη και δε θα μπορέσετε να επαναφέρετε τα δεδομένα!", "Είμαι σίγουρος", "Όχι, ακύρωση.");
+                if (result == true)
+                {
+                    database.DropTable<Rantezvous>();
+                    database.CreateTable<Rantezvous>();
+                    Rantezvous.Clear();
+                    await Application.Current.MainPage.DisplayAlert("Μήνυμα Συστήματος", "Έγινε διαγραφή όλων", "OK");
+                }
+                //this.Rantezvous = null;
+                //this.Rantezvous = new ObservableCollection<Rantezvous>
+                //(database.Table<Rantezvous>());
+                //Rantezvous.Clear();
+
             }
-            this.Rantezvous = null;
-            this.Rantezvous = new ObservableCollection<Rantezvous>
-                (database.Table<Rantezvous>());
+            catch (Exception e)
+            {
+                await Application.Current.MainPage.DisplayAlert("error", "error deleting", "OK");
+                throw e;
+            }
+
         }
+
+        #region PropertyChanged Implementation
+        public event PropertyChangedEventHandler PropertyChanged;
+        void OnPropertyChanged([CallerMemberName]string name = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+        #endregion
     }
 }

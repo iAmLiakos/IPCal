@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Source>C:\Users\Ilias\Desktop\ipcal\1920ò1920logo.png</Source>
+    <SmallTileSource>C:\Users\Ilias\Desktop\ipcal\1920ò1920logo.png</SmallTileSource>
+    <MediumTileSource>C:\Users\Ilias\Desktop\ipcal\1920ò1920logo.png</MediumTileSource>
+    <WideTileSource>C:\Users\Ilias\Desktop\ipcal\1920ò1920logo.png</WideTileSource>
+    <LargeTileSource>C:\Users\Ilias\Desktop\ipcal\1920ò1920logo.png</LargeTileSource>
+    <AppIconSource>C:\Users\Ilias\Desktop\ipcal\1920ò1920logo.png</AppIconSource>
+    <SplashScreenSource>C:\Users\Ilias\Desktop\ipcal\1920ò1920logo.png</SplashScreenSource>
+    <PackageLogoSource>C:\Users\Ilias\Desktop\ipcal\1920ò1920logo.png</PackageLogoSource>
+    <AppxPackageIsForStore>False</AppxPackageIsForStore>
+    <AppxShowAllApps>False</AppxShowAllApps>
+    <AppxBuildConfigurationSelection>x86|x64</AppxBuildConfigurationSelection>
+    <PackageOptionalProjectsInIdeBuilds>False</PackageOptionalProjectsInIdeBuilds>
+  </PropertyGroup>
+</Project>

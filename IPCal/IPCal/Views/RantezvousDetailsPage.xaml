@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:IPCal"
+             x:Class="IPCal.Views.RantezvousDetailsPage"
+             xmlns:system="clr-namespace:System;assembly=mscorlib">
+    <StackLayout Padding="10,5,10,5">
+        <StackLayout Padding="20,10,20,10" Spacing="8" BackgroundColor="#E5E6EB">
+            <!--<Label Text="Welcome to my app.&#x0a; Hope you like it!" HorizontalOptions="Center" FontSize="Large"></Label>-->
+            <!--<Button Text="Show ALL" WidthRequest="100" HeightRequest="90" HorizontalOptions="Center"  Margin="50"></Button>-->
+            <Label Text="Update Info for this entry" HorizontalOptions="Center"></Label>
+            <BoxView HeightRequest="2" BackgroundColor="Gray"></BoxView>
+            <Entry x:Name="DetailNameValidation" Text="{Binding CustomerName}" Placeholder="Name" HorizontalOptions="Center" WidthRequest="350">
+                <Entry.Behaviors>
+                    <local:Behaviors.EntryValidator></local:Behaviors.EntryValidator>
+                </Entry.Behaviors>
+            </Entry>
+            <Picker ItemsSource="{Binding AreaPicker}" SelectedItem="{Binding SelectedAreaPicker}" Title="Area" HorizontalOptions="Center" WidthRequest="350"></Picker>
+            <Entry Text="{Binding CustomerAddress}" Placeholder="Address" HorizontalOptions="Center" WidthRequest="350">
+                <Entry.Behaviors>
+                    <local:Behaviors.EntryValidator></local:Behaviors.EntryValidator>
+                </Entry.Behaviors>
+            </Entry>
+            <Entry Text="{Binding CustomerPhone}" Placeholder="Phone" HorizontalOptions="Center" WidthRequest="350" Keyboard="Telephone">
+                <Entry.Behaviors>
+                    <local:Behaviors.NumericValidator></local:Behaviors.NumericValidator>
+                </Entry.Behaviors>
+            </Entry>
+            <DatePicker Date="{Binding AppointmentDate}" MinimumDate="{x:Static system:DateTime.Today}" HorizontalOptions="Center" WidthRequest="350"></DatePicker>
+            <Picker ItemsSource="{Binding FrequencyPicker}" SelectedItem="{Binding SelectedFrequencyPicker}" Title="Frequency" HorizontalOptions="Center" WidthRequest="350"></Picker>
+            <Entry Text="{Binding Details}" Placeholder="Details" HorizontalOptions="Center" WidthRequest="350"></Entry>
+            <Button Command="{Binding UpdateButtonCommand}" IsEnabled="{Binding Source={x:Reference DetailNameValidation},Path=IsValid}" Text="Save" HorizontalOptions="Center"></Button>
+            <ActivityIndicator IsRunning="{Binding isBusy}" IsVisible="True" Color="Black"></ActivityIndicator>
+        </StackLayout>
+    </StackLayout>
+</ContentPage>

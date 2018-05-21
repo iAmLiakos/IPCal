@@ -1,0 +1,2 @@
+MainPackage=C:\Users\Ilias\source\repos\IPCal\IPCal\IPCal.UWP\bin\x86\Release\IPCal.UWP_1.1.4.0_x86.appx
+SymbolPackage=C:\Users\Ilias\source\repos\IPCal\IPCal\IPCal.UWP\AppPackages\IPCal.UWP_1.1.4.0_Test\IPCal.UWP_1.1.4.0_x86.appxsym

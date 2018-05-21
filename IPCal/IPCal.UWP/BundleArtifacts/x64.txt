@@ -1,0 +1,6 @@
+MainPackage=C:\Users\Ilias\source\repos\IPCal\IPCal\IPCal.UWP\bin\x64\Release\IPCal.UWP_1.1.4.0_x64.appx
+SymbolPackage=C:\Users\Ilias\source\repos\IPCal\IPCal\IPCal.UWP\AppPackages\IPCal.UWP_1.1.4.0_Test\IPCal.UWP_1.1.4.0_x64.appxsym
+ResourcePack=C:\Users\Ilias\source\repos\IPCal\IPCal\IPCal.UWP\bin\x64\Release\IPCal.UWP_1.1.4.0_scale-100.appx
+ResourcePack=C:\Users\Ilias\source\repos\IPCal\IPCal\IPCal.UWP\bin\x64\Release\IPCal.UWP_1.1.4.0_scale-125.appx
+ResourcePack=C:\Users\Ilias\source\repos\IPCal\IPCal\IPCal.UWP\bin\x64\Release\IPCal.UWP_1.1.4.0_scale-150.appx
+ResourcePack=C:\Users\Ilias\source\repos\IPCal\IPCal\IPCal.UWP\bin\x64\Release\IPCal.UWP_1.1.4.0_scale-400.appx
