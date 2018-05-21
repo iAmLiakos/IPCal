@@ -176,7 +176,6 @@ C:\Users\Ilias\source\repos\IPCal\IPCal\IPCal.UWP\bin\x86\Debug\Xamarin.Forms.Co
 C:\Users\Ilias\source\repos\IPCal\IPCal\IPCal.UWP\bin\x86\Debug\Xamarin.Forms.Platform.UAP.dll
 C:\Users\Ilias\source\repos\IPCal\IPCal\IPCal.UWP\bin\x86\Debug\Xamarin.Forms.Platform.dll
 C:\Users\Ilias\source\repos\IPCal\IPCal\IPCal.UWP\bin\x86\Debug\Xamarin.Forms.Xaml.dll
-C:\Users\Ilias\source\repos\IPCal\IPCal\IPCal.UWP\obj\x86\Debug\IPCal.UWP.csprojResolveAssemblyReference.cache
 C:\Users\Ilias\source\repos\IPCal\IPCal\IPCal.UWP\obj\x86\Debug\App.g.i.cs
 C:\Users\Ilias\source\repos\IPCal\IPCal\IPCal.UWP\obj\x86\Debug\App.g.cs
 C:\Users\Ilias\source\repos\IPCal\IPCal\IPCal.UWP\obj\x86\Debug\MainPage.g.i.cs
@@ -187,8 +186,6 @@ C:\Users\Ilias\source\repos\IPCal\IPCal\IPCal.UWP\obj\x86\Debug\MainPage.xaml
 C:\Users\Ilias\source\repos\IPCal\IPCal\IPCal.UWP\obj\x86\Debug\App.xbf
 C:\Users\Ilias\source\repos\IPCal\IPCal\IPCal.UWP\obj\x86\Debug\MainPage.xbf
 C:\Users\Ilias\source\repos\IPCal\IPCal\IPCal.UWP\obj\x86\Debug\XamlSaveStateFile.xml
-C:\Users\Ilias\source\repos\IPCal\IPCal\IPCal.UWP\obj\x86\Debug\IPCal.UWP.C_.Users.Ilias.source.repos.IPCal.IPCal.IPCal.App.xaml.g.cs
-C:\Users\Ilias\source\repos\IPCal\IPCal\IPCal.UWP\obj\x86\Debug\IPCal.UWP.C_.Users.Ilias.source.repos.IPCal.IPCal.IPCal.Views.MainPage.xaml.g.cs
 C:\Users\Ilias\source\repos\IPCal\IPCal\IPCal.UWP\obj\x86\Debug\IPCal.UWP.csproj.CoreCompileInputs.cache
 C:\Users\Ilias\source\repos\IPCal\IPCal\IPCal.UWP\obj\x86\Debug\IPCal.UWP.csproj.CopyComplete
 C:\Users\Ilias\source\repos\IPCal\IPCal\IPCal.UWP\obj\x86\Debug\IPCal.UWP.exe
@@ -300,3 +297,7 @@ C:\Users\Ilias\source\repos\IPCal\IPCal\IPCal.UWP\bin\x86\Debug\SQLitePCLRaw.bat
 C:\Users\Ilias\source\repos\IPCal\IPCal\IPCal.UWP\bin\x86\Debug\SQLitePCLRaw.batteries_v2.dll
 C:\Users\Ilias\source\repos\IPCal\IPCal\IPCal.UWP\bin\x86\Debug\SQLitePCLRaw.core.dll
 C:\Users\Ilias\source\repos\IPCal\IPCal\IPCal.UWP\bin\x86\Debug\SQLitePCLRaw.provider.e_sqlite3.dll
+C:\Users\Ilias\source\repos\IPCal\IPCal\IPCal.UWP\bin\x86\Debug\MailTemplate.html
+C:\Users\Ilias\source\repos\IPCal\IPCal\IPCal.UWP\obj\x86\Debug\IPCal.UWP.csprojAssemblyReference.cache
+C:\Users\Ilias\source\repos\IPCal\IPCal\IPCal.UWP\obj\x86\Debug\resources.en-us.resfiles
+C:\Users\Ilias\source\repos\IPCal\IPCal\IPCal.UWP\obj\x86\Debug\resources.en-us.resfiles.intermediate

@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="IPCal.Views.SettingsPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Το όνομα σου"/>
+            <Entry Text="{Binding User_Name}" Placeholder="Το όνομα σου"/>
+            <Label Text="Διεύθυνση email"/>
+            <Entry Text="{Binding User_Email}" Placeholder="Το email σου"/>
+            <Label Text="Κωδικός"/>
+            <Entry Text="{Binding EmailPassword}" Placeholder="Κωδικός email" IsPassword="True"/>
+            <Label Text="Ενημέρωση για τους καθαρισμούς για πόσες ημέρες;"/>
+            <Entry Text="{Binding DaysForReminder}" Placeholder="Μέρες"/>
+            <Label Text="Υπενθύμιση μέσω eMail;"/>
+            <Switch IsToggled="{Binding EmailReminder}"/>
+            <Button Text="Save" Command="{Binding SaveUser}"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

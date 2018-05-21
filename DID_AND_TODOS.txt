@@ -1,0 +1,41 @@
+---------------------------------Project IPCal---------------------------------
+
+MVVM arxitektoniki (models, view, viemodels)
+Models: Rantezvous.cs
+ViewModels: RantezvousViewModel.cs
+=============================================
+SQLite for data (Data folder)
+Connection: IDatabaseConnection.cs
+Data: RantezvousDataAccess.cs - Add, Delete etc properties
+....
+Using local path to save database - Code for each platform (DatabaseConnection_Android.cs etc)
+------------------------------------
+=============================================
+RantezvousViewModel for UI binding. All code goes here. MainPage.xaml + RantezvousViewModel.cs
+------
+Added Update and Delete
+Added New Page for update entries
+RantezvousPage is for view,edit entries and some filtered data
+
+
+
+
+
+
+==========================================================
+==========================================================
+TASKS
++Service for emails (Connect to database and do stuff) DONE
++Notifications on desktop or mobile 
++Validation to every entry DONE sort off
+
+
+
+=====================
++Add search to every page. Dieuthinsh 
++Mail body: Prosthiki Thlefwno kai details
++RantezvousPage me th seira oi perioxes pou einai sto excel (ektos apo selida 7 - ektos grafeiou)
+
+====
+
+Enable Less Secure Apps GMail

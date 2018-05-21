@@ -1,0 +1,705 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="IPCal.Views.RantezvousPage">
+    <!--BarBackgroundColor="DimGray"
+             BarTextColor="WhiteSmoke"-->
+    <!--Pages can be added as references or inline-->
+    <ContentPage Title="Γενική Λίστα" BackgroundColor="WhiteSmoke">
+        <ContentPage.ToolbarItems>
+            <ToolbarItem Text="Ενημέρωση μέσω email" Icon="mailsend64.png" Command="{Binding SendEmailButton}"/>
+        </ContentPage.ToolbarItems>
+        <StackLayout>
+            <ActivityIndicator IsRunning="{Binding isBusy}" IsVisible="{Binding isBusy}" Color="Black"/>
+            <SearchBar TextChanged="SearchBar_TextChanged" Placeholder="Γράψε τη διεύθυνση ή το όνομα που ψάχνεις..."></SearchBar>
+            <Label Text="Αυτή η σελίδα περιέχει όλες τις ημερομηνίες καθαρισμού. Απο εδώ μπορείς να τις δείς, να τις επεξεργαστείς ή να τις διαγράψεις." TextColor="LightGray" HorizontalOptions="Center"/>
+            <ListView x:Name="SearchPageRantezvousGrid" ItemsSource="{Binding RantezvousData}" SelectedItem="{Binding ItemSelected}" SeparatorColor="Black" SeparatorVisibility="Default">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell x:Name="ItemGrid">
+                            <Grid Padding="5">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="90" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <!--1st Column-->
+                                <StackLayout HorizontalOptions="Start" Grid.Column="0" Grid.Row="0">
+                                    <Label Text="Κωδικός:" FontSize="Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="0" Grid.Row="1">
+                                    <Label Text="Όνομα:" FontSize="Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="0" Grid.Row="2">
+                                    <Label Text="Διεύθυνση:" FontSize="Micro"/>
+                                </StackLayout>
+                                <StackLayout Spacing="15" HorizontalOptions="Start" Grid.Column="0" Grid.Row="3">
+                                    <Label Text="Περιοχή:" FontSize="Micro"/>
+                                    <BoxView  HeightRequest="2" BackgroundColor="Gray" WidthRequest="100"/>
+                                </StackLayout>
+
+
+                                <!--2nd Column-->
+                                <StackLayout HorizontalOptions="Start" Grid.Column="1" Grid.Row="0">
+                                    <Label Text="{Binding Id}" Font="Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="1" Grid.Row="1">
+                                    <Label Text="{Binding CustomerName}" Font="Bold,Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="1" Grid.Row="2">
+                                    <Label Text="{Binding CustomerAddress}" Font="Bold,Micro"/>
+                                </StackLayout>
+                                <StackLayout Spacing="15" HorizontalOptions="Start" Grid.Column="1" Grid.Row="3">
+                                    <Label Text="{Binding AreaName}" Font="Micro"/>
+                                    <BoxView  HeightRequest="2" BackgroundColor="Gray" WidthRequest="100"/>
+                                </StackLayout>
+
+
+                                <!--3rd Column-->
+                                <StackLayout HorizontalOptions="Start" Grid.Column="2" Grid.Row="0">
+                                    <Label Text="Ημερομηνία" Font="Micro" HorizontalOptions="Center"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="2" Grid.Row="1">
+                                    <Label Text="{Binding DateTrimmed}" Font="Bold,Micro" HorizontalOptions="Center"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="2" Grid.Row="2">
+                                    <Label Text="Επόμενη Ημερομηνία" Font="Micro" HorizontalOptions="Center"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="2" Grid.Row="3">
+                                    <Label Text="{Binding NextDateTrimmed}" Font="Bold,Micro" HorizontalOptions="Center"/>
+                                </StackLayout>
+
+                                <!--4th Column-->
+                                <StackLayout HorizontalOptions="Start" Grid.Column="3" Grid.Row="1">
+                                    <Button WidthRequest="140" HeightRequest="50" BackgroundColor="LightGray" Text="Διαγραφή" BindingContext="{Binding Source={x:Reference SearchPageRantezvousGrid}, Path=BindingContext}"
+                                Command="{Binding DeleteOneItemCommand}" CommandParameter="{Binding Source={x:Reference ItemGrid},
+                                Path=BindingContext}" Image="deletecalendar.png"/>
+                                    <BoxView WidthRequest="120" HeightRequest="1" BackgroundColor="WhiteSmoke" HorizontalOptions="Center"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="3" Grid.Row="2">
+                                    <BoxView WidthRequest="120" HeightRequest="1" BackgroundColor="WhiteSmoke" HorizontalOptions="Center"/>
+                                    <Button WidthRequest="140" HeightRequest="50" BackgroundColor="LightGray" Text="Ενημέρωση" BindingContext="{Binding Source={x:Reference SearchPageRantezvousGrid}, Path=BindingContext}"
+                                Command="{Binding UpdateButton}" CommandParameter="{Binding Source={x:Reference ItemGrid},
+                                Path=BindingContext}" Image="updatecalendar.png"/>
+                                </StackLayout>
+
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Button Text="Διαγραφή όλων" Image="deleteall.png" FontSize="20" BackgroundColor="Black" TextColor="Red" Command="{Binding DeleteAllButtonCommand}" HorizontalOptions="End"/>
+            <!--<StackLayout Orientation="Horizontal">
+                -->
+            <!--<Button Text="Update Selected" Command="{Binding UpdateButton}" BackgroundColor="Gray" HorizontalOptions="StartAndExpand"/>
+                <BoxView WidthRequest="50" HeightRequest="1" BackgroundColor="WhiteSmoke" HorizontalOptions="Center"/>
+                <Button Text="Delete Selected" Command="{Binding DeleteOneItemCommand2}" BackgroundColor="Red" HorizontalOptions="EndAndExpand"/>-->
+            <!--
+            </StackLayout>-->
+        </StackLayout>
+    </ContentPage>
+    <!--Ampelokhpoi-->
+    <ContentPage Title="Αμπελόκηποι" BackgroundColor="WhiteSmoke">
+        <StackLayout>
+            <ActivityIndicator IsRunning="{Binding isBusy}" IsVisible="{Binding isBusy}" Color="Black"/>
+            <SearchBar TextChanged="SearchBar_TextChanged" Placeholder="Γράψε τη διεύθυνση ή το όνομα που ψάχνεις..."></SearchBar>
+            <ListView x:Name="AmpelokhpoiList" ItemsSource="{Binding SortedOCAmpelokhpoi}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell x:Name="ItemGrid">
+                            <Grid Padding="10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="90" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <!--1st Column-->
+                                <StackLayout HorizontalOptions="Start" Grid.Column="0" Grid.Row="0">
+                                    <Label Text="Κωδικός:" FontSize="Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="0" Grid.Row="1">
+                                    <Label Text="Όνομα:" FontSize="Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="0" Grid.Row="2">
+                                    <Label Text="Διεύθυνση:" FontSize="Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="0" Grid.Row="3">
+                                    <Label Text="Περιοχή:" FontSize="Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="0" Grid.Row="4">
+                                    <BoxView HeightRequest="1" BackgroundColor="Gray" WidthRequest="100"/>
+                                </StackLayout>
+
+                                <!--2nd Column-->
+                                <StackLayout HorizontalOptions="Start" Grid.Column="1" Grid.Row="0">
+                                    <Label Text="{Binding Id}" Font="Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="1" Grid.Row="1">
+                                    <Label Text="{Binding CustomerName}" Font="Bold,Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="1" Grid.Row="2">
+                                    <Label Text="{Binding CustomerAddress}" Font="Bold,Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="1" Grid.Row="3">
+                                    <Label Text="{Binding AreaName}" Font="Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="1" Grid.Row="4">
+                                    <BoxView HeightRequest="1" BackgroundColor="Gray" WidthRequest="100"/>
+                                </StackLayout>
+
+                                <!--3rd Column-->
+                                <StackLayout HorizontalOptions="Start" Grid.Column="2" Grid.Row="0">
+                                    <Label Text="Ημερομηνία" Font="Micro" HorizontalOptions="Center"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="2" Grid.Row="1">
+                                    <Label Text="{Binding DateTrimmed}" Font="Bold,Micro" HorizontalOptions="Center"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="2" Grid.Row="2">
+                                    <Label Text="Επόμενη Ημερομηνία" Font="Micro" HorizontalOptions="Center"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="2" Grid.Row="3">
+                                    <Label Text="{Binding NextDateTrimmed}" Font="Bold,Micro" HorizontalOptions="Center"/>
+                                </StackLayout>
+
+                                <!--4th Column-->
+
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage>
+    <!--<ContentPage Title="ΟΛΑ" Padding="5,10,5,10" BackgroundColor="WhiteSmoke">
+        <Label Text="This is a page with all the appointments. You can delete or update any entry." TextColor="LightGray" HorizontalOptions="Center"/>
+        <StackLayout Orientation="Vertical" Padding="5,5,5,5">
+            <Label Text="This is a page with all the appointments. You can delete or update any entry." TextColor="LightGray"/>
+            <ListView x:Name="AllRantezvousListView"
+            ItemsSource="{Binding RantezvousData}"
+            SeparatorVisibility="Default"
+            SeparatorColor="Black"
+            SelectedItem="{Binding ItemSelected}">
+                -->
+    <!--Custom View Cells-->
+    <!--
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell x:Name="Item">
+                            <StackLayout Orientation="Horizontal" Padding="30,10,10,10" HorizontalOptions="Center" VerticalOptions="Center">
+                                <Label FontSize="Medium" Text="{Binding Id}"  HorizontalOptions="Center" TextColor="Chocolate"/>
+                                <Label Text="{Binding CustomerName}" HorizontalOptions="Center" VerticalOptions="Center" TextColor="Black" FontSize="Medium"/>
+                                <Label Text="{Binding CustomerAddress}" HorizontalOptions="Center" VerticalOptions="Center" TextColor="Red" FontSize="Medium"/>
+                                <Label Text="{Binding CustomerPhone}" HorizontalOptions="Center" VerticalOptions="Center" FontSize="Micro"/>
+                                <Label Text="{Binding AreaName}" HorizontalOptions="Center" VerticalOptions="Center" FontSize="Micro"/>
+                                <Label Text="{Binding AppointmentDate}" HorizontalOptions="Center" VerticalOptions="Center" FontSize="Micro"/>
+                                <Label Text="{Binding NextAppointmentDate}" HorizontalOptions="Center" VerticalOptions="Center" FontSize="Micro"/>
+                                <Label Text="{Binding FrequencyOfCleaning}" HorizontalOptions="Center" VerticalOptions="Center" FontSize="Micro"/>
+                                <Button BackgroundColor="WhiteSmoke" Text="Click Me" BindingContext="{Binding Source={x:Reference AllRantezvousListView}, Path=BindingContext}"
+                                Command="{Binding DeleteOneItemCommand}" CommandParameter="{Binding Source={x:Reference Item},
+                                Path=BindingContext}"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Button Text="Delete Selected" Command="{Binding DeleteOneItemCommand2}" HorizontalOptions="Center" VerticalOptions="Center" BackgroundColor="Red" TextColor="Black"/>
+            <Button Text="DeleteALL" Command="{Binding DeleteAllButtonCommand}"/>
+            <Button x:Name="UpdateButton" Text="Update Button" Command="{Binding UpdateButton}" HorizontalOptions="Center" VerticalOptions="Center" BorderWidth="5"></Button>
+        </StackLayout>
+    </ContentPage>-->
+    <ContentPage Title="Κέντρο" BackgroundColor="WhiteSmoke">
+        <StackLayout>
+            <ActivityIndicator IsRunning="{Binding isBusy}" IsVisible="{Binding isBusy}" Color="Black"/>
+            <SearchBar TextChanged="SearchBar_TextChanged" Placeholder="Γράψε τη διεύθυνση ή το όνομα που ψάχνεις..."></SearchBar>
+            <ListView x:Name="KentroList" ItemsSource="{Binding SortedOCKentro}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell x:Name="ItemGrid">
+                            <Grid Padding="10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="90" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <!--1st Column-->
+                                <StackLayout HorizontalOptions="Start" Grid.Column="0" Grid.Row="0">
+                                    <Label Text="Κωδικός:" FontSize="Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="0" Grid.Row="1">
+                                    <Label Text="Όνομα:" FontSize="Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="0" Grid.Row="2">
+                                    <Label Text="Διεύθυνση:" FontSize="Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="0" Grid.Row="3">
+                                    <Label Text="Περιοχή:" FontSize="Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="0" Grid.Row="4">
+                                    <BoxView HeightRequest="1" BackgroundColor="Gray" WidthRequest="100"/>
+                                </StackLayout>
+
+                                <!--2nd Column-->
+                                <StackLayout HorizontalOptions="Start" Grid.Column="1" Grid.Row="0">
+                                    <Label Text="{Binding Id}" Font="Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="1" Grid.Row="1">
+                                    <Label Text="{Binding CustomerName}" Font="Bold,Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="1" Grid.Row="2">
+                                    <Label Text="{Binding CustomerAddress}" Font="Bold,Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="1" Grid.Row="3">
+                                    <Label Text="{Binding AreaName}" Font="Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="1" Grid.Row="4">
+                                    <BoxView HeightRequest="1" BackgroundColor="Gray" WidthRequest="100"/>
+                                </StackLayout>
+
+                                <!--3rd Column-->
+                                <StackLayout HorizontalOptions="Start" Grid.Column="2" Grid.Row="0">
+                                    <Label Text="Ημερομηνία" Font="Micro" HorizontalOptions="Center"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="2" Grid.Row="1">
+                                    <Label Text="{Binding DateTrimmed}" Font="Bold,Micro" HorizontalOptions="Center"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="2" Grid.Row="2">
+                                    <Label Text="Επόμενη Ημερομηνία" Font="Micro" HorizontalOptions="Center"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="2" Grid.Row="3">
+                                    <Label Text="{Binding NextDateTrimmed}" Font="Bold,Micro" HorizontalOptions="Center"/>
+                                </StackLayout>
+
+                                <!--4th Column-->
+
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage>
+
+    <!--Kaloutsiani-->
+    <ContentPage Title="Καλούτσιανη" BackgroundColor="WhiteSmoke">
+        <StackLayout>
+            <ActivityIndicator IsRunning="{Binding isBusy}" IsVisible="{Binding isBusy}" Color="Black"/>
+            <SearchBar TextChanged="SearchBar_TextChanged" Placeholder="Γράψε τη διεύθυνση ή το όνομα που ψάχνεις..."></SearchBar>
+            <ListView x:Name="KaloutsianiList" ItemsSource="{Binding SortedOCKaloutsiani}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell x:Name="ItemGrid">
+                            <Grid Padding="10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="90" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <!--1st Column-->
+                                <StackLayout HorizontalOptions="Start" Grid.Column="0" Grid.Row="0">
+                                    <Label Text="Κωδικός:" FontSize="Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="0" Grid.Row="1">
+                                    <Label Text="Όνομα:" FontSize="Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="0" Grid.Row="2">
+                                    <Label Text="Διεύθυνση:" FontSize="Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="0" Grid.Row="3">
+                                    <Label Text="Περιοχή:" FontSize="Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="0" Grid.Row="4">
+                                    <BoxView HeightRequest="1" BackgroundColor="Gray" WidthRequest="100"/>
+                                </StackLayout>
+
+                                <!--2nd Column-->
+                                <StackLayout HorizontalOptions="Start" Grid.Column="1" Grid.Row="0">
+                                    <Label Text="{Binding Id}" Font="Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="1" Grid.Row="1">
+                                    <Label Text="{Binding CustomerName}" Font="Bold,Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="1" Grid.Row="2">
+                                    <Label Text="{Binding CustomerAddress}" Font="Bold,Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="1" Grid.Row="3">
+                                    <Label Text="{Binding AreaName}" Font="Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="1" Grid.Row="4">
+                                    <BoxView HeightRequest="1" BackgroundColor="Gray" WidthRequest="100"/>
+                                </StackLayout>
+
+                                <!--3rd Column-->
+                                <StackLayout HorizontalOptions="Start" Grid.Column="2" Grid.Row="0">
+                                    <Label Text="Ημερομηνία" Font="Micro" HorizontalOptions="Center"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="2" Grid.Row="1">
+                                    <Label Text="{Binding DateTrimmed}" Font="Bold,Micro" HorizontalOptions="Center"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="2" Grid.Row="2">
+                                    <Label Text="Επόμενη Ημερομηνία" Font="Micro" HorizontalOptions="Center"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="2" Grid.Row="3">
+                                    <Label Text="{Binding NextDateTrimmed}" Font="Bold,Micro" HorizontalOptions="Center"/>
+                                </StackLayout>
+
+                                <!--4th Column-->
+
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage>
+    <!--Kiafa-->
+    <ContentPage Title="Κιάφα" BackgroundColor="WhiteSmoke">
+        <StackLayout>
+            <ActivityIndicator IsRunning="{Binding isBusy}" IsVisible="{Binding isBusy}" Color="Black"/>
+            <SearchBar TextChanged="SearchBar_TextChanged" Placeholder="Γράψε τη διεύθυνση ή το όνομα που ψάχνεις..."></SearchBar>
+            <ListView x:Name="KiafaList" ItemsSource="{Binding SortedOCKiafa}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell x:Name="ItemGrid">
+                            <Grid Padding="10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="90" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <!--1st Column-->
+                                <StackLayout HorizontalOptions="Start" Grid.Column="0" Grid.Row="0">
+                                    <Label Text="Κωδικός:" FontSize="Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="0" Grid.Row="1">
+                                    <Label Text="Όνομα:" FontSize="Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="0" Grid.Row="2">
+                                    <Label Text="Διεύθυνση:" FontSize="Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="0" Grid.Row="3">
+                                    <Label Text="Περιοχή:" FontSize="Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="0" Grid.Row="4">
+                                    <BoxView HeightRequest="1" BackgroundColor="Gray" WidthRequest="100"/>
+                                </StackLayout>
+
+                                <!--2nd Column-->
+                                <StackLayout HorizontalOptions="Start" Grid.Column="1" Grid.Row="0">
+                                    <Label Text="{Binding Id}" Font="Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="1" Grid.Row="1">
+                                    <Label Text="{Binding CustomerName}" Font="Bold,Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="1" Grid.Row="2">
+                                    <Label Text="{Binding CustomerAddress}" Font="Bold,Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="1" Grid.Row="3">
+                                    <Label Text="{Binding AreaName}" Font="Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="1" Grid.Row="4">
+                                    <BoxView HeightRequest="1" BackgroundColor="Gray" WidthRequest="100"/>
+                                </StackLayout>
+
+                                <!--3rd Column-->
+                                <StackLayout HorizontalOptions="Start" Grid.Column="2" Grid.Row="0">
+                                    <Label Text="Ημερομηνία" Font="Micro" HorizontalOptions="Center"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="2" Grid.Row="1">
+                                    <Label Text="{Binding DateTrimmed}" Font="Bold,Micro" HorizontalOptions="Center"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="2" Grid.Row="2">
+                                    <Label Text="Επόμενη Ημερομηνία" Font="Micro" HorizontalOptions="Center"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="2" Grid.Row="3">
+                                    <Label Text="{Binding NextDateTrimmed}" Font="Bold,Micro" HorizontalOptions="Center"/>
+                                </StackLayout>
+
+                                <!--4th Column-->
+
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage>
+
+    <!--Makrines perioxes-->
+    <ContentPage Title="Μακρινά" BackgroundColor="WhiteSmoke">
+        <StackLayout>
+            <ActivityIndicator IsRunning="{Binding isBusy}" IsVisible="{Binding isBusy}" Color="Black"/>
+            <SearchBar TextChanged="SearchBar_TextChanged" Placeholder="Γράψε τη διεύθυνση ή το όνομα που ψάχνεις..."></SearchBar>
+            <ListView x:Name="MakrinaList" ItemsSource="{Binding SortedOCMakrina}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell x:Name="ItemGrid">
+                            <Grid Padding="10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="90" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <!--1st Column-->
+                                <StackLayout HorizontalOptions="Start" Grid.Column="0" Grid.Row="0">
+                                    <Label Text="Κωδικός:" FontSize="Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="0" Grid.Row="1">
+                                    <Label Text="Όνομα:" FontSize="Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="0" Grid.Row="2">
+                                    <Label Text="Διεύθυνση:" FontSize="Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="0" Grid.Row="3">
+                                    <Label Text="Περιοχή:" FontSize="Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="0" Grid.Row="4">
+                                    <BoxView HeightRequest="1" BackgroundColor="Gray" WidthRequest="100"/>
+                                </StackLayout>
+
+                                <!--2nd Column-->
+                                <StackLayout HorizontalOptions="Start" Grid.Column="1" Grid.Row="0">
+                                    <Label Text="{Binding Id}" Font="Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="1" Grid.Row="1">
+                                    <Label Text="{Binding CustomerName}" Font="Bold,Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="1" Grid.Row="2">
+                                    <Label Text="{Binding CustomerAddress}" Font="Bold,Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="1" Grid.Row="3">
+                                    <Label Text="{Binding AreaName}" Font="Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="1" Grid.Row="4">
+                                    <BoxView HeightRequest="1" BackgroundColor="Gray" WidthRequest="100"/>
+                                </StackLayout>
+
+                                <!--3rd Column-->
+                                <StackLayout HorizontalOptions="Start" Grid.Column="2" Grid.Row="0">
+                                    <Label Text="Ημερομηνία" Font="Micro" HorizontalOptions="Center"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="2" Grid.Row="1">
+                                    <Label Text="{Binding DateTrimmed}" Font="Bold,Micro" HorizontalOptions="Center"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="2" Grid.Row="2">
+                                    <Label Text="Επόμενη Ημερομηνία" Font="Micro" HorizontalOptions="Center"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="2" Grid.Row="3">
+                                    <Label Text="{Binding NextDateTrimmed}" Font="Bold,Micro" HorizontalOptions="Center"/>
+                                </StackLayout>
+
+                                <!--4th Column-->
+
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage>
+
+    <!--Πλατεια Ομήρου και Σπύρου Λάμπρου-->
+    <ContentPage Title="Πλατεία Ομήρου/Σπύρου Λάμπρου" BackgroundColor="WhiteSmoke">
+        <StackLayout>
+            <ActivityIndicator IsRunning="{Binding isBusy}" IsVisible="{Binding isBusy}" Color="Black"/>
+            <SearchBar TextChanged="SearchBar_TextChanged" Placeholder="Γράψε τη διεύθυνση ή το όνομα που ψάχνεις..."></SearchBar>
+            <ListView x:Name="PlateiaOmirouList" ItemsSource="{Binding SortedOCPlateiaOmirou}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell x:Name="ItemGrid">
+                            <Grid Padding="10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="90" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <!--1st Column-->
+                                <StackLayout HorizontalOptions="Start" Grid.Column="0" Grid.Row="0">
+                                    <Label Text="Κωδικός:" FontSize="Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="0" Grid.Row="1">
+                                    <Label Text="Όνομα:" FontSize="Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="0" Grid.Row="2">
+                                    <Label Text="Διεύθυνση:" FontSize="Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="0" Grid.Row="3">
+                                    <Label Text="Περιοχή:" FontSize="Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="0" Grid.Row="4">
+                                    <BoxView HeightRequest="1" BackgroundColor="Gray" WidthRequest="100"/>
+                                </StackLayout>
+
+                                <!--2nd Column-->
+                                <StackLayout HorizontalOptions="Start" Grid.Column="1" Grid.Row="0">
+                                    <Label Text="{Binding Id}" Font="Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="1" Grid.Row="1">
+                                    <Label Text="{Binding CustomerName}" Font="Bold,Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="1" Grid.Row="2">
+                                    <Label Text="{Binding CustomerAddress}" Font="Bold,Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="1" Grid.Row="3">
+                                    <Label Text="{Binding AreaName}" Font="Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="1" Grid.Row="4">
+                                    <BoxView HeightRequest="1" BackgroundColor="Gray" WidthRequest="100"/>
+                                </StackLayout>
+
+                                <!--3rd Column-->
+                                <StackLayout HorizontalOptions="Start" Grid.Column="2" Grid.Row="0">
+                                    <Label Text="Ημερομηνία" Font="Micro" HorizontalOptions="Center"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="2" Grid.Row="1">
+                                    <Label Text="{Binding DateTrimmed}" Font="Bold,Micro" HorizontalOptions="Center"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="2" Grid.Row="2">
+                                    <Label Text="Επόμενη Ημερομηνία" Font="Micro" HorizontalOptions="Center"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="2" Grid.Row="3">
+                                    <Label Text="{Binding NextDateTrimmed}" Font="Bold,Micro" HorizontalOptions="Center"/>
+                                </StackLayout>
+
+                                <!--4th Column-->
+
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage>
+    <!--Kardamitsia kai Anatolh-->
+    <ContentPage Title="Καρδαμίτσια/Ανατολή" BackgroundColor="WhiteSmoke">
+        <StackLayout>
+            <ActivityIndicator IsRunning="{Binding isBusy}" IsVisible="{Binding isBusy}" Color="Black"/>
+            <SearchBar TextChanged="SearchBar_TextChanged" Placeholder="Γράψε τη διεύθυνση ή το όνομα που ψάχνεις..."></SearchBar>
+            <ListView x:Name="KardamitsiaList" ItemsSource="{Binding SortedOCKardamitsia}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell x:Name="ItemGrid">
+                            <Grid Padding="10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="90" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <!--1st Column-->
+                                <StackLayout HorizontalOptions="Start" Grid.Column="0" Grid.Row="0">
+                                    <Label Text="Κωδικός:" FontSize="Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="0" Grid.Row="1">
+                                    <Label Text="Όνομα:" FontSize="Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="0" Grid.Row="2">
+                                    <Label Text="Διεύθυνση:" FontSize="Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="0" Grid.Row="3">
+                                    <Label Text="Περιοχή:" FontSize="Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="0" Grid.Row="4">
+                                    <BoxView HeightRequest="1" BackgroundColor="Gray" WidthRequest="100"/>
+                                </StackLayout>
+
+                                <!--2nd Column-->
+                                <StackLayout HorizontalOptions="Start" Grid.Column="1" Grid.Row="0">
+                                    <Label Text="{Binding Id}" Font="Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="1" Grid.Row="1">
+                                    <Label Text="{Binding CustomerName}" Font="Bold,Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="1" Grid.Row="2">
+                                    <Label Text="{Binding CustomerAddress}" Font="Bold,Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="1" Grid.Row="3">
+                                    <Label Text="{Binding AreaName}" Font="Micro"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="1" Grid.Row="4">
+                                    <BoxView HeightRequest="1" BackgroundColor="Gray" WidthRequest="100"/>
+                                </StackLayout>
+
+                                <!--3rd Column-->
+                                <StackLayout HorizontalOptions="Start" Grid.Column="2" Grid.Row="0">
+                                    <Label Text="Ημερομηνία" Font="Micro" HorizontalOptions="Center"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="2" Grid.Row="1">
+                                    <Label Text="{Binding DateTrimmed}" Font="Bold,Micro" HorizontalOptions="Center"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="2" Grid.Row="2">
+                                    <Label Text="Επόμενη Ημερομηνία" Font="Micro" HorizontalOptions="Center"/>
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="Start" Grid.Column="2" Grid.Row="3">
+                                    <Label Text="{Binding NextDateTrimmed}" Font="Bold,Micro" HorizontalOptions="Center"/>
+                                </StackLayout>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage>
+</TabbedPage>

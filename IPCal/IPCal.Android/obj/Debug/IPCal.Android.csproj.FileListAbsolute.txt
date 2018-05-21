@@ -69,9 +69,7 @@ C:\Users\Ilias\source\repos\IPCal\IPCal\IPCal.Android\obj\Debug\android\assets\S
 C:\Users\Ilias\source\repos\IPCal\IPCal\IPCal.Android\bin\Debug\SQLite-net.pdb
 C:\Users\Ilias\source\repos\IPCal\IPCal\IPCal.Android\obj\Debug\linksrc\SQLite-net.pdb
 C:\Users\Ilias\source\repos\IPCal\IPCal\IPCal.Android\obj\Debug\android\assets\SQLite-net.pdb
-C:\Users\Ilias\source\repos\IPCal\IPCal\IPCal.Android\bin\Debug\IPCal.Android.dll
-C:\Users\Ilias\source\repos\IPCal\IPCal\IPCal.Android\obj\Debug\linksrc\IPCal.Android.dll.mdb
-C:\Users\Ilias\source\repos\IPCal\IPCal\IPCal.Android\obj\Debug\linksrc\FormsViewGroup.dll.mdb
-C:\Users\Ilias\source\repos\IPCal\IPCal\IPCal.Android\obj\Debug\linksrc\Xamarin.Forms.Core.dll.mdb
-C:\Users\Ilias\source\repos\IPCal\IPCal\IPCal.Android\obj\Debug\linksrc\Xamarin.Forms.Platform.Android.dll.mdb
-C:\Users\Ilias\source\repos\IPCal\IPCal\IPCal.Android\obj\Debug\linksrc\Xamarin.Forms.Xaml.dll.mdb
+C:\Users\Ilias\source\repos\IPCal\IPCal\IPCal.Android\obj\Debug\IPCal.Droid.Views.RantezvousPage.xaml.g.cs
+C:\Users\Ilias\source\repos\IPCal\IPCal\IPCal.Android\obj\Debug\IPCal.Droid.Views.RantezvousDetailsPage.xaml.g.cs
+C:\Users\Ilias\source\repos\IPCal\IPCal\IPCal.Android\obj\Debug\IPCal.Droid.Views.SettingsPage.xaml.g.cs
+C:\Users\Ilias\source\repos\IPCal\IPCal\IPCal.Android\bin\Debug\MailTemplate.html

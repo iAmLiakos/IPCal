@@ -7,74 +7,96 @@ namespace IPCal.Behaviors
 {
     class EntryValidator : Behavior<Entry>
     {
-        public static readonly BindableProperty ValueProperty = BindableProperty.Create<EntryValidator, int>(p => p.Value, 0, propertyChanged: OnValueChange, defaultBindingMode: BindingMode.TwoWay);
-        public static readonly BindableProperty FormatProperty = BindableProperty.Create<EntryValidator, string>(p => p.Format, string.Empty, propertyChanged: OnFormatChange);
+        //Result Boolean
+        private static readonly BindablePropertyKey IsValidPropertyKey = BindableProperty.CreateReadOnly("IsValid",
+            typeof(bool), typeof(EntryValidator), false);
+        public static readonly BindableProperty IsValidProperty = IsValidPropertyKey.BindableProperty;
 
-        private static void OnValueChange(BindableObject bindable, int oldvalue, int newvalue)
+
+        public bool IsValid
         {
-            var e = bindable as EntryValidator;
-
-            if (e == null)
-                throw new Exception("ExtendedEntry.OnValueChange bindable == null");
-
-            e.Value = newvalue;
+            get
+            {
+                return (bool)GetValue(IsValidProperty);
+            }
+            private set
+            {
+                SetValue(IsValidPropertyKey, value);
+            }
         }
 
-        private static void OnFormatChange(BindableObject bindable, string oldvalue, string newvalue)
+        //Result message
+        public static readonly BindableProperty MessageProperty = BindableProperty.Create("Message",
+            typeof(string), typeof(EntryValidator), string.Empty);
+
+        public string Message
         {
-            var e = bindable as EntryValidator;
-
-            if (e == null)
-                throw new Exception("ExtendedEntry.OnFormatChange bindable == null");
-
-            e.Format = newvalue;
+            get { return (string)GetValue(MessageProperty); }
+            private set { SetValue(MessageProperty, value); }
         }
 
-        public int Value
+        //Is check empty
+        public static BindableProperty IsCheckEmptyProperty = BindableProperty.Create("IsCheckEmpty",
+            typeof(bool), typeof(EntryValidator), false);
+
+        public bool IsCheckEmpty
         {
-            get { return (int)GetValue(ValueProperty); }
-            set { SetValue(ValueProperty, value); }
+            get { return (bool)GetValue(IsCheckEmptyProperty); }
+            set { SetValue(IsCheckEmptyProperty, value); }
         }
 
-        public string Format
+        //Validate from start
+        public static BindableProperty IsValidateFromStartProperty = BindableProperty.Create("ValidateFromStart",
+            typeof(bool), typeof(EntryValidator), false);
+
+        public bool ValidateFromStart
         {
-            get { return (string)GetValue(FormatProperty); }
-            set { SetValue(FormatProperty, value); }
+            get { return (bool)GetValue(IsValidateFromStartProperty); }
+            set { SetValue(IsValidateFromStartProperty, value); }
         }
 
-        protected override void OnAttachedTo(Entry entry)
+
+        //Is check email
+        public static BindableProperty IsCheckEmailProperty = BindableProperty.Create("IsCheckEmail",
+            typeof(bool), typeof(EntryValidator), false);
+
+        public bool IsCheckEmail
         {
-            entry.Focused += OnFocused;
-            entry.Unfocused += OnUnfocused;
+            get { return (bool)GetValue(IsCheckEmailProperty); }
+            set { SetValue(IsCheckEmailProperty, value); }
         }
 
-        protected override void OnDetachingFrom(Entry entry)
+        protected override void OnAttachedTo(Entry bindable)
         {
-            entry.Focused -= OnFocused;
-            entry.Unfocused -= OnUnfocused;
+            bindable.TextChanged += HandleTextChanged;
         }
 
-        private void OnFocused(object sender, FocusEventArgs e)
+        private void HandleTextChanged(object sender, TextChangedEventArgs e)
         {
-            Entry entry = sender as Entry;
+            bool IsOldTextNull = e.OldTextValue == null;
 
-            if (entry == null)
-                throw new Exception("ExtendedEntry.OnFocus sender == null");
+            IsValid = e.NewTextValue.Length > 4;
+            if (!IsValid)
+                {
+                    Message = "Πρέπει να είναι πάνω απο 4 χαρακτήρες";
+                    ((Entry)sender).TextColor = Color.Red;
+                    if (IsOldTextNull && !ValidateFromStart)
+                        Message = string.Empty;
 
-            entry.Text = entry.Text.Remove.Format;
+                    return;
+                }
+            Message = string.Empty;
+            ((Entry)sender).TextColor = Color.Black;
+
         }
 
-        private void OnUnfocused(object sender, FocusEventArgs e)
-        {
-            Entry entry = sender as Entry;
+            //TODO add more validation
 
-            if (entry == null)
-                throw new Exception("ExtendedEntry.OnUnfocused sender == null");
+            //Default
+            //IsValid = true;
+            //Message = string.Empty;
 
-            var unformattedValue = entry.Text.RemoveFormat(Format);
-            Value = Convert.ToInt32(unformattedValue);
-            entry.Text = unformattedValue.ApplyFormat(Format, Value);
+            
         }
 
-    }
 }
