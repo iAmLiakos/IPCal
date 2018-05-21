@@ -75,21 +75,6 @@ namespace IPCal.Data
         // Use SQL queries against data
         public IEnumerable<Rantezvous> GetFilteredRantezvous10DaysNear()
         {
-            //lock (collisionLock)
-            //{
-
-
-            //ObservableCollection<Rantezvous> queried = new ObservableCollection<Rantezvous>();
-            //var query = from cust in database.Table<Rantezvous>()
-            //            where cust.AppointmentDate <= DateTime.Now.Add(new TimeSpan(7,0,0,0))
-            //            select cust;
-            //foreach (var item in query)
-            //{
-            //    queried.Add(item);
-            //}
-            //return queried;
-            //}
-            //}
             lock (collisionLock)
             {
                 //var query = from c in data.Rantezvous

@@ -1,9 +1,0 @@
-﻿<Application
-    x:Class="IPCal.UWP.App"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:IPCal.UWP"
-    RequestedTheme="Light">
-
-</Application>
-
